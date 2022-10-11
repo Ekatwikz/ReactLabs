@@ -25,7 +25,7 @@ function GameAdmin() {
 			<Player playerNum={2} playerNumStr="Two" playerName={player2Name} isPlaying={whoIsPlaying === 2} togglePlayer={togglePlayer} playCount={player2Count}/>
 			<hr/>
 			<PlayerInput playerNumStr="One" playerName={player1Name} changePlayerName={setPlayer1Name}/>
-			<PlayerInput playerNumStr="One" playerName={player2Name} changePlayerName={setPlayer2Name}/>
+			<PlayerInput playerNumStr="Two" playerName={player2Name} changePlayerName={setPlayer2Name}/>
 		</div>
 	);
 }
