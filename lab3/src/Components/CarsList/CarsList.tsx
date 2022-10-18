@@ -1,20 +1,21 @@
 import React from 'react';
 import CarListItem from '../CarListItem/CarListItem';
 import SearchBox from '../SearchBox/SearchBox';
-import carsSource from '../../data/cars.json'
 import { useState } from 'react';
 
+import { Car, CARS } from '../../data/Car';
+
 function CarsList () {
-	let [cars, setCars] = useState(carsSource);
+	let [cars, setCars] = useState(CARS);
 	let [searchValue, setSearchValue] = useState('');
 
 	let searchText = searchValue.toLowerCase();
 
-	function deleteCar(car) {
-		setCars(cars.filter(c => c !== car));
+	function deleteCar(car: Car) {
+		setCars(cars.filter(currentCar => currentCar !== car));
 	}
 
-	function editCarPrice(car, priceEdit) {
+	function editCarPrice(car: Car, priceEdit: string) {
 		let newPrice = parseInt(priceEdit);
 		if (!isNaN(newPrice) && newPrice > 0) {
 			car.pricePerDay = newPrice;
@@ -29,7 +30,7 @@ function CarsList () {
 			{
 				cars.map((car, i) =>
 					searchText === '' || car.name.toLowerCase().indexOf(searchText) !== -1 ?
-					<CarListItem key={i} car={car} editCarPrice={editCarPrice} searchText={searchText} deleteCar={deleteCar}/>
+					<CarListItem key={car.id} car={car} editCarPrice={editCarPrice} deleteCar={deleteCar}/>
 						: null
 				)
 			}
