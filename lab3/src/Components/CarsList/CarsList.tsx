@@ -2,17 +2,17 @@ import React from 'react';
 import CarListItem from '../CarListItem/CarListItem';
 import SearchBox from '../SearchBox/SearchBox';
 import { useState } from 'react';
-
 import { Car, CARS } from '../../data/Car';
+import './CarsList.css'
 
-function CarsList () {
+function CarsList() {
 	let [cars, setCars] = useState(CARS);
 	let [searchValue, setSearchValue] = useState('');
 
 	let searchText = searchValue.toLowerCase();
 
 	function deleteCar(car: Car) {
-		setCars(cars.filter(currentCar => currentCar !== car));
+		setCars(cars.filter(currentCar => currentCar.id !== car.id));
 	}
 
 	function editCarPrice(car: Car, priceEdit: string) {
@@ -23,18 +23,17 @@ function CarsList () {
 	}
 
 	return (
-		<>
+		<main>
 			<SearchBox searchText={searchValue}
 				setSearchValue={setSearchValue} />
-		
+
 			{
-				cars.map((car, i) =>
-					searchText === '' || car.name.toLowerCase().indexOf(searchText) !== -1 ?
-					<CarListItem key={car.id} car={car} editCarPrice={editCarPrice} deleteCar={deleteCar}/>
-						: null
-				)
+				cars
+					.filter(car => searchText === "" // show all cars if we're not filtering
+						|| car.name.toLowerCase().indexOf(searchText) >= 0)
+					.map(car => <CarListItem key={car.id} car={car} editCarPrice={editCarPrice} deleteCar={deleteCar} />)
 			}
-		</>
+		</main>
 	);
 }
 

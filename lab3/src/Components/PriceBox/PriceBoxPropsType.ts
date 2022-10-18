@@ -1,9 +1,10 @@
 import { Car } from '../../data/Car';
 
-type PriceEditPropsType = {
+type PriceBoxPropsType = {
 	car: Car;
 	priceEdit: string;
 	setPriceEdit: (value: string) => void;
+	isEditing: boolean;	
 }
 
-export default PriceEditPropsType;
+export default PriceBoxPropsType;

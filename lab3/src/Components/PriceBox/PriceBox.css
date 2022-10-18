@@ -1,0 +1,7 @@
+.priceBox {
+    width: 90px;
+}
+
+.priceBox:focus {
+    outline: none;
+}

@@ -1,3 +1,23 @@
 .car-box {
-    
+    display: flex;
+    border: 1px solid;
+    justify-content: space-evenly;
+    flex-direction: row;
+    margin: 6px 0px;
+    align-items: center;
+}
+
+.column-flex {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.priceSection {
+    height: 100px;
+    justify-content: space-between;
+}
+
+.editButton {
+    border-right: 0px;
 }

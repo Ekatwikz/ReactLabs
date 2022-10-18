@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PriceEditBox from '../PriceEditBox/PriceEditBox';
+import PriceBox from '../PriceBox/PriceBox';
 import CarListItemPropsType from './CarListItemPropsType';
 import './CarListItem.css'
 
@@ -8,45 +8,45 @@ function CarListItem(props: CarListItemPropsType) {
 	let [priceEdit, setPriceEdit] = useState(props.car.pricePerDay.toString());
 
 	return (
-		<div className="car-box">
-			<img src={props.car.image} alt={props.car.name + " image"} height="50px" />
-
+		<section className="car-box">
+			<img src={props.car.image} alt={props.car.name + " image"} height="90px" />
 			<h2>
 				{props.car.name}
 			</h2>
 
-			<label>
-				{props.car.seats} seats
-			</label>
-			<br />
+			<section className="column-flex">
+				<label>
+					{props.car.seats} seats
+				</label>
 
-			<label>
-				{props.car.doors} doors
-			</label>
-			<br />
+				<label>
+					{props.car.doors} doors
+				</label>
 
-			<label>
-				{props.car.AC ? "Air" : "No air"} conditioning
-			</label>
+				<label>
+					{props.car.AC ? "Air conditioned" : "No air conditioning"}
+				</label>
+			</section>
 
-			{
-				isEditing ?
-					<PriceEditBox priceEdit={priceEdit} setPriceEdit={setPriceEdit} car={props.car} />
-					:
-					<h4>
-						${props.car.pricePerDay}
-					</h4>
-			}
+			<section className="column-flex priceSection">
+				<label>
+					Price per day
+				</label>
 
-			<input type="button" value="Delete" onClick={() => props.deleteCar(props.car)} />
-			<input type="button" value={isEditing ? "Save" : "Edit Price"} onClick={() => {
-				if (isEditing) {
-					props.editCarPrice(props.car, priceEdit);
-				}
+				<PriceBox priceEdit={priceEdit} setPriceEdit={setPriceEdit} car={props.car} isEditing={isEditing} />
 
-				setIsEditing(!isEditing)
-			}} />
-		</div>
+				<div>
+					<input type="button" value={isEditing ? "Save" : "Edit"} onClick={() => {
+						if (isEditing) {
+							props.editCarPrice(props.car, priceEdit);
+						}
+
+						setIsEditing(!isEditing);
+					}} className="editButton"/>
+					<input type="button" value="Delete" onClick={() => props.deleteCar(props.car)} className="deleteButton"/>
+				</div>
+			</section>
+		</section>
 	);
 }
 

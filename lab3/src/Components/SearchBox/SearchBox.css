@@ -1,0 +1,22 @@
+.searchBox, .searchButton {
+    border: 2px solid;
+    box-sizing: content-box;
+    box-shadow: none;
+    border-radius: 0px;
+    padding: 0px 10px;
+}
+
+.searchBox {
+    width: 300px;
+    height: 30px;
+    border-right: 0px;
+}
+
+.searchBox:focus {
+    outline: none;
+}
+
+.searchButton {
+    width: 100px;
+    height: 30px;
+}
