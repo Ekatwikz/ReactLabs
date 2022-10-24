@@ -17,9 +17,14 @@ function CarsList() {
 
 	function editCarPrice(car: Car, priceEdit: string) {
 		let newPrice = parseInt(priceEdit);
-		if (!isNaN(newPrice) && newPrice > 0) {
-			car.pricePerDay = newPrice;
+		let newCars = cars.splice(0);
+		let theCar = newCars.find(currCar => currCar.id === car.id);
+
+		if (theCar && !isNaN(newPrice) && newPrice > 0) {
+			theCar.pricePerDay = newPrice;
 		}
+		
+		setCars(newCars);
 	}
 
 	return (
