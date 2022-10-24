@@ -22,9 +22,8 @@ function CarsList() {
 
 		if (theCar && !isNaN(newPrice) && newPrice > 0) {
 			theCar.pricePerDay = newPrice;
+			setCars(newCars);
 		}
-		
-		setCars(newCars);
 	}
 
 	return (
