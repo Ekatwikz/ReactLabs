@@ -19,9 +19,9 @@ function ErrorBox ({ possibleErrors }: { possibleErrors: PossibleError[] }) {
 								if (errHasOccured) {
 									return (
 										<div key={i}>
-											<label>
+											<span>
 												{errText}
-											</label>
+											</span>
 										</div>
 									);
 								} else {

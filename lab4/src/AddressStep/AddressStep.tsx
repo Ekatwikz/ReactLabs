@@ -10,10 +10,6 @@ type AddressStepProps = {
 	setStepValidator: (validator: () => boolean) => void
 }
 
-function validZipCode(str: string) {
-	return str.match(/(^\d{2}-\d{3}$)/);
-}
-
 function AddressStep({ userAddresses, setUserAddresses, sameAsDelivery, setSameAsDelivery, setStepValidator }: AddressStepProps) {
 	const [validationErrors, setValidationErrors] = useState<PossibleError[]>([
 		["Delivery street can't be blank", false],
@@ -129,6 +125,10 @@ function AddressStep({ userAddresses, setUserAddresses, sameAsDelivery, setSameA
 
 		setUserAddresses(newAddresses);
 	}
+}
+
+function validZipCode(str: string) {
+	return str.match(/(^\d{2}-\d{3}$)/);
 }
 
 export default AddressStep;

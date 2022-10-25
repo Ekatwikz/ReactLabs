@@ -8,12 +8,6 @@ type NameStepProps = {
 	setStepValidator: (validator: () => boolean) => void
 }
 
-function validEmail(str: string) {
-	return str
-	.toLowerCase()
-	.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
 function NameStep({ userInfo, setUserInfo, setStepValidator }: NameStepProps) {
 	const [validationErrors, setValidationErrors] = useState<PossibleError[]>([
 		["First name can't be blank", false],
@@ -46,6 +40,12 @@ function NameStep({ userInfo, setUserInfo, setStepValidator }: NameStepProps) {
 			<ErrorBox possibleErrors={validationErrors} />
 		</section>
 	);
+}
+
+function validEmail(str: string) {
+	return str
+	.toLowerCase()
+	.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 }
 
 export default NameStep;

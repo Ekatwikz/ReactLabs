@@ -35,16 +35,16 @@ function useStep(initialStep: number) {
 	const [step, setStep] = useState(initialStep);
 
 	function mySetStep(newStep: number) {
-		if (stepValidators[step]()) {
+		if (newStep < step || stepValidators[step]()) {
 			setStep(newStep);
 		}
 	}
 
-	function mySetStepValidator(step: number, validator: () => boolean) {
+	function setStepValidator(step: number, validator: () => boolean) {
 		stepValidators[step] = validator;
 	}
 
-	return [step, mySetStep, mySetStepValidator] as const;
+	return [step, mySetStep, setStepValidator] as const;
 }
 
 export default CustomerForm;
