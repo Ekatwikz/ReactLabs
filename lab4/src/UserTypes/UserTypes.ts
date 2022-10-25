@@ -1,27 +1,29 @@
-export type UserInfo = {
+type UserInfo = {
 	firstName: string,
 	lastName: string,
 	email: string
 }
 
-export type Address = {
+type Address = {
 	street: string,
+	zipCode: string,
 	city: string,
-	zipCode: string
 }
 
-export type UserAddresses = {
+type UserAddress = {
 	delivery: Address,
 	invoice: Address
 }
 
-export type PartialAddress = {
+type PartialAddress = {
 	street?: string,
+	zipCode?: string,
 	city?: string,
-	zipCode?: string
 }
 
-export type PartialUserAddress = {
+type PartialUserAddress = {
 	delivery?: PartialAddress,
 	invoice?: PartialAddress
 }
+
+export type { UserInfo, Address, UserAddress, PartialAddress, PartialUserAddress };

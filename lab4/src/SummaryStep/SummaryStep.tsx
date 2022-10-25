@@ -1,13 +1,13 @@
 import React from 'react'
-import { UserInfo, UserAddresses } from '../UserTypes/UserTypes'
+import { UserInfo, UserAddress } from '../UserTypes/UserTypes'
 
 type SummaryStepProps = {
 	userInfo: UserInfo,
-	userAddresses: UserAddresses,
+	userAddress: UserAddress,
 	setStepValidator: (validator: () => boolean) => void
 }
 
-function SummaryStep ({ userInfo, userAddresses, setStepValidator }: SummaryStepProps) {
+function SummaryStep ({ userInfo, userAddress, setStepValidator }: SummaryStepProps) {
 	setStepValidator(() => true); // lol
 
 	return (
@@ -21,14 +21,14 @@ function SummaryStep ({ userInfo, userAddresses, setStepValidator }: SummaryStep
 
 			<h3>Addresses</h3>
 			<h3>Delivery</h3>
-			<label>Street: {userAddresses.delivery.street}</label><br/>
-			<label>Zip Code: {userAddresses.delivery.zipCode}</label><br/>
-			<label>City: {userAddresses.delivery.city}</label>
+			<label>Street: {userAddress.delivery.street}</label><br/>
+			<label>Zip Code: {userAddress.delivery.zipCode}</label><br/>
+			<label>City: {userAddress.delivery.city}</label>
 
 			<h3>Invoice</h3>
-			<label>Street: {userAddresses.invoice.street}</label><br/>
-			<label>Zip Code: {userAddresses.invoice.zipCode}</label><br/>
-			<label>City: {userAddresses.invoice.city}</label>
+			<label>Street: {userAddress.invoice.street}</label><br/>
+			<label>Zip Code: {userAddress.invoice.zipCode}</label><br/>
+			<label>City: {userAddress.invoice.city}</label>
 		</section>
 	);
 }

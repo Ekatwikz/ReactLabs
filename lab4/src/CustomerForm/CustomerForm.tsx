@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import NameStep from '../NameStep/NameStep'
 import AddressStep from '../AddressStep/AddressStep'
 import SummaryStep from '../SummaryStep/SummaryStep'
-import { UserInfo, UserAddresses } from '../UserTypes/UserTypes'
+import { UserInfo, UserAddress } from '../UserTypes/UserTypes'
 
 function CustomerForm() {
 	const [step, setStep, setStepValidator] = useStep(0);
 	const [userInfo, setUserInfo] = useState<UserInfo>({firstName: "", lastName: "", email: ""});
-	const [userAddresses, setUserAddresses ] = useState<UserAddresses>({ delivery: {street: "", city: "", zipCode: ""}, invoice: {street: "", city: "", zipCode: ""}});
+	const [userAddress, setUserAddress ] = useState<UserAddress>({ delivery: {street: "", city: "", zipCode: ""}, invoice: {street: "", city: "", zipCode: ""}});
 	const [sameAsDelivery, setSameAsDelivery] = useState(false);
 
 	return (
@@ -16,10 +16,10 @@ function CustomerForm() {
 				[
 					<NameStep userInfo={userInfo} setUserInfo={setUserInfo}
 						setStepValidator={(validator: () => boolean) => setStepValidator(0, validator)} />,
-					<AddressStep userAddresses={userAddresses} setUserAddresses={setUserAddresses}
+					<AddressStep userAddress={userAddress} setUserAddress={setUserAddress}
 						sameAsDelivery={sameAsDelivery} setSameAsDelivery={setSameAsDelivery}
 						setStepValidator={(validator: () => boolean) => setStepValidator(1, validator)} />,
-					<SummaryStep userInfo={userInfo} userAddresses={userAddresses}
+					<SummaryStep userInfo={userInfo} userAddress={userAddress}
 						setStepValidator={(validator: () => boolean) => setStepValidator(2, validator)} />
 				][step]
 			}
