@@ -1,31 +1,81 @@
 import React, { useState } from 'react'
-import { UserAddresses } from '../UserTypes/UserTypes'
+import { UserAddresses, PartialUserAddress } from '../UserTypes/UserTypes'
 import ErrorBox, { PossibleError } from '../ErrorBox/ErrorBox';
 
 type AddressStepProps = {
 	userAddresses: UserAddresses,
 	setUserAddresses: (userAddresses: UserAddresses) => void,
+	sameAsDelivery: boolean,
+	setSameAsDelivery: (val: boolean) => void;
 	setStepValidator: (validator: () => boolean) => void
 }
 
-function AddressStep({ userAddresses, setUserAddresses, setStepValidator }: AddressStepProps) {
-	const [sameAsDelivery, setSameAsDelivery] = useState(false);
+function validZipCode(str: string) {
+	return str.match(/(^\d{2}-\d{3}$)/);
+}
 
+function AddressStep({ userAddresses, setUserAddresses, sameAsDelivery, setSameAsDelivery, setStepValidator }: AddressStepProps) {
 	const [validationErrors, setValidationErrors] = useState<PossibleError[]>([
 		["Delivery street can't be blank", false],
-		["Delivery zip code can't be blank", false],
+		["Delivery zip code is invalid (format: DD-DDD)", false],
 		["Delivery city can't be blank", false],
 
 		["Invoice street can't be blank", false],
-		["Invoice zip code can't be blank", false],
+		["Invoice zip code is invalid (format: DD-DDD)", false],
 		["Invoice city can't be blank", false]
 	]);
 
 	setStepValidator(() => {
 		let newValidationError = false;
-		let [deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid, invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid] = validationErrors;
+		let [deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid,
+			invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid] = validationErrors;
 
+		// Delivery Addrs
+		if (userAddresses.delivery.street === "") {
+			console.log();
+			deliveryStreetInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			deliveryStreetInvalid[1] = false;
+		}
 
+		if (!validZipCode(userAddresses.delivery.zipCode)) {
+			deliveryZipCodeInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			deliveryZipCodeInvalid[1] = false;
+		}
+
+		if (userAddresses.delivery.city === "") {
+			deliveryCityInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			deliveryCityInvalid[1] = false;
+		}
+
+		// Invoice Addrs
+		if (userAddresses.invoice.street === "") {
+			invoiceStreetInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			invoiceStreetInvalid[1] = false;
+		}
+
+		if (!validZipCode(userAddresses.invoice.zipCode)) {
+			invoiceZipCodeInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			invoiceZipCodeInvalid[1] = false;
+		}
+
+		if (userAddresses.invoice.city === "") {
+			invoiceCityInvalid[1] = true;
+			newValidationError = true;
+		} else {
+			invoiceCityInvalid[1] = false;
+		}
+
+		setValidationErrors([deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid, invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid]);
 		return !newValidationError;
 	});
 
@@ -37,19 +87,13 @@ function AddressStep({ userAddresses, setUserAddresses, setStepValidator }: Addr
 			<form>
 				<input type="text" placeholder="Street"
 					value={userAddresses.delivery.street}
-					onChange={e => {
-						let newInvoiceAddr = userAddresses.invoice;
-						if (sameAsDelivery) {
-							newInvoiceAddr = {...newInvoiceAddr, street: e.target.value}
-						}
-						setUserAddresses({ delivery: { ...userAddresses.delivery, street: e.target.value }, invoice: newInvoiceAddr })}
-					}/><br />
+					onChange={e => updateAddresses({ delivery: { street: e.target.value } })} /><br />
 				<input type="text" placeholder="Zip Code"
 					value={userAddresses.delivery.zipCode}
-					onChange={e => setUserAddresses({ delivery: { ...userAddresses.delivery, zipCode: e.target.value }, invoice: userAddresses.invoice })} /><br />
+					onChange={e => updateAddresses({ delivery: { zipCode: e.target.value } })} /><br />
 				<input type="text" placeholder="City"
 					value={userAddresses.delivery.city}
-					onChange={e => setUserAddresses({ delivery: { ...userAddresses.delivery, city: e.target.value }, invoice: userAddresses.invoice })} />
+					onChange={e => updateAddresses({ delivery: { city: e.target.value } })} />
 			</form>
 
 			<h4>Invoice</h4>
@@ -57,29 +101,70 @@ function AddressStep({ userAddresses, setUserAddresses, setStepValidator }: Addr
 				<input type="text" placeholder="Street"
 					disabled={sameAsDelivery}
 					value={userAddresses.invoice.street}
-					onChange={e => setUserAddresses({ invoice: { ...userAddresses.invoice, street: e.target.value }, delivery: userAddresses.delivery })} /><br />
+					onChange={e => updateAddresses({ invoice: { street: e.target.value } })} /><br />
 				<input type="text" placeholder="Zip Code"
 					disabled={sameAsDelivery}
 					value={userAddresses.invoice.zipCode}
-					onChange={e => setUserAddresses({ invoice: { ...userAddresses.invoice, zipCode: e.target.value }, delivery: userAddresses.delivery })} /><br />
+					onChange={e => updateAddresses({ invoice: { zipCode: e.target.value } })} /><br />
 				<input type="text" placeholder="City"
 					disabled={sameAsDelivery}
 					value={userAddresses.invoice.city}
-					onChange={e => setUserAddresses({ invoice: { ...userAddresses.invoice, city: e.target.value }, delivery: userAddresses.delivery })} />
+					onChange={e => updateAddresses({ invoice: { city: e.target.value } })} />
 				<br />
 
 				<label>(Same as delivery address)</label>
 				<input type="checkbox" checked={sameAsDelivery}
-				onChange={() => {
-					if (!sameAsDelivery) {
-						setUserAddresses({ delivery: userAddresses.delivery, invoice: userAddresses.delivery })
-					}
-					setSameAsDelivery(!sameAsDelivery)
-				}}/>
+					onChange={() => {
+						if (!sameAsDelivery) {
+							setUserAddresses({ delivery: { ...userAddresses.delivery }, invoice: { ...userAddresses.delivery } })
+						}
+						setSameAsDelivery(!sameAsDelivery)
+					}} />
 			</form>
 
+			<ErrorBox possibleErrors={validationErrors} />
 		</section>
 	);
+
+	function updateAddresses(partialAddress: PartialUserAddress) {
+		const argErr = new Error("Bad argument");
+
+		let newAddresses = { ...userAddresses };
+		if (partialAddress.delivery) {
+			if (typeof partialAddress.delivery.street === "string") {
+				newAddresses.delivery.street = partialAddress.delivery.street;
+				if (sameAsDelivery) {
+					newAddresses.invoice.street = partialAddress.delivery.street;
+				}
+			} else if (typeof partialAddress.delivery.city === "string") {
+				newAddresses.delivery.city = partialAddress.delivery.city;
+				if (sameAsDelivery) {
+					newAddresses.invoice.city = partialAddress.delivery.city;
+				}
+			} else if (typeof partialAddress.delivery.zipCode === "string") {
+				newAddresses.delivery.zipCode = partialAddress.delivery.zipCode;
+				if (sameAsDelivery) {
+					newAddresses.invoice.zipCode = partialAddress.delivery.zipCode;
+				}
+			} else {
+				throw argErr;
+			}
+		} else if (partialAddress.invoice) {
+			if (typeof partialAddress.invoice.street === "string") {
+				newAddresses.invoice.street = partialAddress.invoice.street;
+			} else if (typeof partialAddress.invoice.city === "string") {
+				newAddresses.invoice.city = partialAddress.invoice.city;
+			} else if (typeof partialAddress.invoice.zipCode === "string") {
+				newAddresses.invoice.zipCode = partialAddress.invoice.zipCode;
+			} else {
+				throw argErr;
+			}
+		} else {
+			throw argErr;
+		}
+
+		setUserAddresses(newAddresses);
+	}
 }
 
 export default AddressStep;
