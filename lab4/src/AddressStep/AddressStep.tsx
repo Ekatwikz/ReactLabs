@@ -26,57 +26,21 @@ function AddressStep({ userAddresses, setUserAddresses, sameAsDelivery, setSameA
 	]);
 
 	setStepValidator(() => {
-		let newValidationError = false;
 		let [deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid,
 			invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid] = validationErrors;
 
-		// Delivery Addrs
-		if (userAddresses.delivery.street === "") {
-			console.log();
-			deliveryStreetInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			deliveryStreetInvalid[1] = false;
-		}
+		deliveryStreetInvalid[1] = userAddresses.delivery.street === "";
+		deliveryZipCodeInvalid[1] = !validZipCode(userAddresses.delivery.zipCode);
+		deliveryCityInvalid[1] = userAddresses.delivery.city === "";
 
-		if (!validZipCode(userAddresses.delivery.zipCode)) {
-			deliveryZipCodeInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			deliveryZipCodeInvalid[1] = false;
-		}
+		invoiceStreetInvalid[1] = !sameAsDelivery && userAddresses.invoice.street === "";
+		invoiceZipCodeInvalid[1] = !sameAsDelivery && !validZipCode(userAddresses.invoice.zipCode);
+		invoiceCityInvalid[1] = !sameAsDelivery && userAddresses.invoice.city === "";
 
-		if (userAddresses.delivery.city === "") {
-			deliveryCityInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			deliveryCityInvalid[1] = false;
-		}
-
-		// Invoice Addrs
-		if (userAddresses.invoice.street === "") {
-			invoiceStreetInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			invoiceStreetInvalid[1] = false;
-		}
-
-		if (!validZipCode(userAddresses.invoice.zipCode)) {
-			invoiceZipCodeInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			invoiceZipCodeInvalid[1] = false;
-		}
-
-		if (userAddresses.invoice.city === "") {
-			invoiceCityInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			invoiceCityInvalid[1] = false;
-		}
-
-		setValidationErrors([deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid, invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid]);
-		return !newValidationError;
+		let newValidationErrors = [deliveryStreetInvalid, deliveryZipCodeInvalid, deliveryCityInvalid,
+			invoiceStreetInvalid, invoiceZipCodeInvalid, invoiceCityInvalid];
+		setValidationErrors(newValidationErrors);
+		return newValidationErrors.findIndex(err => err[1] === true) < 0;
 	});
 
 	return (

@@ -22,32 +22,15 @@ function NameStep({ userInfo, setUserInfo, setStepValidator }: NameStepProps) {
 	]);
 
 	setStepValidator(() => {
-		let newValidationError = false;
 		let [firstNameInvalid, lastNameInvalid, emailInvalid] = validationErrors;
 
-		if (userInfo.firstName === "") {
-			firstNameInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			firstNameInvalid[1] = false;
-		}
+		firstNameInvalid[1] = userInfo.firstName === "";
+		lastNameInvalid[1] = userInfo.lastName === "";
+		emailInvalid[1] = !validEmail(userInfo.email);
 
-		if (userInfo.lastName === "") {
-			lastNameInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			lastNameInvalid[1] = false;
-		}
-
-		if (!validEmail(userInfo.email)) {
-			emailInvalid[1] = true;
-			newValidationError = true;
-		} else {
-			emailInvalid[1] = false;
-		}
-
-		setValidationErrors([firstNameInvalid, lastNameInvalid, emailInvalid]);
-		return !newValidationError;
+		let newValidationErrors = [firstNameInvalid, lastNameInvalid, emailInvalid];
+		setValidationErrors(newValidationErrors);
+		return newValidationErrors.findIndex(err => err[1] === true) < 0;
 	});
 
 	return (
