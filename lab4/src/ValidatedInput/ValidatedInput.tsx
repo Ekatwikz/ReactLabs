@@ -3,7 +3,7 @@ import './ValidatedInput.css';
 
 type PossibleError = [
 	string, // errorText
-	boolean // errHasOccured
+	boolean // errorOccured
 ]
 
 type ValidatedInputProps = {
@@ -15,15 +15,17 @@ type ValidatedInputProps = {
 }
 
 function ValidatedInput ({ value, onChange, placeholder, disabled, possibleError }: ValidatedInputProps) {
+	let [ errorText, errorOccured ] = possibleError;
+
 	return (
 		<>
 			<input value={value} onChange={e => onChange(e)} disabled={disabled} placeholder={placeholder}/>
 			{
-				possibleError[1] ?
+				errorOccured ?
 					<>
 						<br/>
 						<span className="validationError">
-							{possibleError[0]}
+							{errorText}
 						</span>
 					</>
 					: null

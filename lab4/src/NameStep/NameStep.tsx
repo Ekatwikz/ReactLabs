@@ -15,7 +15,8 @@ function NameStep({ userInfo, setUserInfo, setStepValidator }: NameStepProps) {
 		["Email is invalid", false]
 	]);
 
-	setStepValidator(() => {firstNameInvalid[1] = userInfo.firstName === "";
+	setStepValidator(() => {
+		firstNameInvalid[1] = userInfo.firstName === "";
 		lastNameInvalid[1] = userInfo.lastName === "";
 		emailInvalid[1] = !validEmail(userInfo.email);
 
