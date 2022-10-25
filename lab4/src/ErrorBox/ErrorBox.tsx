@@ -1,8 +1,8 @@
 import React from 'react'
 
-type PossibleError = [ 
+type PossibleError = [
 	string, // errorText
-	boolean // hasOccured
+	boolean // errHasOccured
 ]
 
 function ErrorBox ({ possibleErrors }: { possibleErrors: PossibleError[] }) {
@@ -15,12 +15,12 @@ function ErrorBox ({ possibleErrors }: { possibleErrors: PossibleError[] }) {
 					<section>
 						<h3>Error!</h3>
 						{
-							possibleErrors.map((err, i) => {
-								if (err[1]) {
+							possibleErrors.map(([errText, errHasOccured], i) => {
+								if (errHasOccured) {
 									return (
 										<div key={i}>
 											<label>
-												{err[0]}
+												{errText}
 											</label>
 										</div>
 									);

@@ -2,56 +2,34 @@ import React, { useState } from 'react'
 import NameStep from '../NameStep/NameStep'
 import AddressStep from '../AddressStep/AddressStep'
 import SummaryStep from '../SummaryStep/SummaryStep'
+import { UserInfo, UserAddresses } from '../UserTypes/UserTypes'
 
 function CustomerForm() {
 	const [step, setStep, setStepValidator] = useStep(0);
 
-	// Name
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [email, setEmail] = useState('');
-
-	// Address
-	const [deliveryStreet, setDeliveryStreet] = useState('');
-	const [deliveryCity, setDeliveryCity] = useState('');
-	const [deliveryZipCode, setDeliveryZipCode] = useState('');
-	const [invoiceStreet, setInvoiceStreet] = useState('');
-	const [invoiceCity, setInvoiceCity] = useState('');
-	const [invoiceZipCode, setInvoiceZipCode] = useState('');
-
-	const [sameAddress, setSameAddress] = useState(false);
+	const [ userInfo, setUserInfo ] = useState<UserInfo>({firstName: "", lastName: "", email: ""});
+	const [ userAddresses, setUserAddresses ] = useState<UserAddresses>({ delivery: {street: "", city: "", zipCode: ""}, invoice: {street: "", city: "", zipCode: ""}});
 
 	return (
 		<>
 			{
 				[
-					<NameStep firstName={firstName} setFirstName={setFirstName}
-						lastName={lastName} setLastName={setLastName} 
-						email={email} setEmail={setEmail}
+					<NameStep userInfo={userInfo} setUserInfo={setUserInfo}
 						setStepValidator={(val: () => boolean) => setStepValidator(0, val)} />,
-
-						<AddressStep setDeliveryCity={setDeliveryCity} setDeliveryZipCode={setDeliveryZipCode} 
-							setDeliveryStreet={setDeliveryStreet} setInvoiceCity={setInvoiceCity} setInvoiceStreet={setInvoiceStreet}
-							setInvoiceZipCode={setInvoiceZipCode} deliveryCity={deliveryCity} deliveryStreet={deliveryStreet}
-							deliveryZipCode={deliveryZipCode} invoiceCity={invoiceCity} invoiceStreet={invoiceStreet} 
-							invoiceZipCode={invoiceZipCode} sameAddress={sameAddress}
-							setSameAddress={setSameAddress}
-							setStepValidator={(val: () => boolean) => setStepValidator(1, val)} />,
-
-							<SummaryStep firstName={firstName} lastName={lastName} email={email} deliveryCity={deliveryCity}
-								deliveryZipCode={deliveryZipCode} deliveryStreet={deliveryStreet} invoiceCity={invoiceCity}
-								invoiceStreet={invoiceStreet} invoiceZipCode={invoiceZipCode}
-								setStepValidator={(val: () => boolean) => setStepValidator(2, val)} />
+					<AddressStep userAddresses={userAddresses} setUserAddresses={setUserAddresses}
+						setStepValidator={(val: () => boolean) => setStepValidator(1, val)} />,
+					<SummaryStep userInfo={userInfo} userAddresses={userAddresses}
+						setStepValidator={(val: () => boolean) => setStepValidator(2, val)} />
 				][step]
 			}
 
-			<input type="button" value="Prev" onClick={() => setStep(step - 1)} disabled={step <= 0}/>
-			<input type="button" value="Next" onClick={() => setStep(step + 1)} disabled={step >= 2}/>
+			<input type="button" value="Prev" onClick={() => setStep(step - 1)} disabled={step <= 0} />
+			<input type="button" value="Next" onClick={() => setStep(step + 1)} disabled={step >= 2} />
 		</>
 	)
 }
 
-let stepValidators: {(): boolean}[] = [];
+let stepValidators: { (): boolean }[] = [];
 function useStep(initialStep: number) {
 	const [step, setStep] = useState(initialStep);
 
