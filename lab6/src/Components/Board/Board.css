@@ -1,0 +1,22 @@
+:root {
+	--tile-size: 20px;
+}
+
+#Board, .BoardRow {
+	display: flex;
+	align-items: center;
+}
+
+#Board {
+	flex-direction: column;
+	border: 3px solid #534449;
+}
+
+.BoardRow {
+	flex-direction: row;
+}
+
+.BoardTile {
+	width: var(--tile-size);
+	height: var(--tile-size);
+}
