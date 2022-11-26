@@ -21,7 +21,7 @@ function Editor() {
 							setTeams({
 								...teams,
 								teamA: { ...teams.teamA,
-									code: e.target.value
+									code: e.target.value.toUpperCase()
 								}
 							})
 						}/>
@@ -32,7 +32,7 @@ function Editor() {
 							setTeams({
 								...teams,
 								teamB: { ...teams.teamB,
-									code: e.target.value
+									code: e.target.value.toUpperCase()
 								}
 							})
 						}/>

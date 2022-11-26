@@ -1,7 +1,7 @@
 import "./Component.css"
 
-import { stadiumAtom, countriesSelector, teamsAtom } from '../atoms';
-import { useRecoilState } from 'recoil';
+import { stadiumAtom, countriesSelector, teamsAtom } from "../atoms";
+import { useRecoilState } from "recoil";
 
 function Stadium() {
 	const [stadium] = useRecoilState(stadiumAtom);
