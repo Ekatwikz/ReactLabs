@@ -20,20 +20,11 @@ const teamsAtom = atom({
 	},
 });
 
-function imageExists(url) {
-	const img = new Image();
-	img.src = url; // this might not load fast enough?
-	return img.height !== 0;
-}
-
-function getFlag(code) {
-	const req = `https://countryflagsapi.com/png/${code}`;
-	return imageExists(req) ? req : "https://i.imgur.com/cS4TG2K.png";
-}
-
-function getName(code) {
-	return Object.keys(countries).indexOf(code) < 0 ? code : countries[code];
-}
+const knownCode = code => Object.keys(countries).indexOf(code) >= 0;
+const getName = code => knownCode(code) ? countries[code] : code;
+const getFlag = code =>
+	knownCode(code) ?
+		`https://countryflagsapi.com/png/${code}` : "https://i.imgur.com/cS4TG2K.png";
 
 const countriesSelector = selector({
 	key: "countryNamesSelector",
