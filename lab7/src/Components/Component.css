@@ -1,0 +1,27 @@
+.Stadium, .Editor {
+	text-align: center;
+
+	border: 1px solid;
+	margin: 5px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.LilComponent {
+	border: 1px solid;
+	margin: 5px;
+	padding: 2px;
+}
+
+.FlagSection {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+img {
+	padding: 10px;
+}
