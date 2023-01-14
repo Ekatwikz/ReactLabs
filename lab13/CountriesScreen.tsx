@@ -77,13 +77,12 @@ function CountriesScreen({ navigation }:
                 <Text style={styles.content}>Countries Fetched: {countries.length}</Text>
                 <FlatList
                     data={countries}
-                    renderItem={({ item: country }: { item: SimpleCountry }) => {
-                        return (
+                    renderItem={
+                        ({ item: country }: { item: SimpleCountry }) =>
                             <TouchableOpacity onPress={() => navigation.navigate('CountryDetailsScreen', country)}>
                                 <Text>{country.name.common}</Text>
                             </TouchableOpacity>
-                        )
-                    }}
+                    }
                     keyExtractor={country => country.name.common}
                     onRefresh={refreshCountries}
                     refreshing={loading}
