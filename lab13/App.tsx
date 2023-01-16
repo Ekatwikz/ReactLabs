@@ -3,8 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import CountriesScreen from './CountriesScreen'
 import CountryDetailsScreen from './CountryDetailsScreen'
+import { type StackType } from './types'
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<StackType>();
 function App() {
   return (
     <NavigationContainer>

@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Text, View, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
 
 import { getFromURL, getFromURLAndSleep } from './utils'
 import { styles } from './styles'
-import { type SimpleCountry } from './types'
+import { type SimpleCountry, type CountriesScreenProps } from './types'
 
-function CountriesScreen({ navigation }:
-    {
-        navigation: NavigationScreenProp<{
-            CountriesScreen: undefined
-        }>
-    }) {
-
+function CountriesScreen({ navigation: { navigate } }: CountriesScreenProps) {
     const [countries, setCountries] = useState<SimpleCountry[]>([]);
     const [searchText, setSearchText] = useState("");
 
@@ -32,7 +25,7 @@ function CountriesScreen({ navigation }:
                     setBadResponse(true);
                     setCountries([]);
                 })
-                .then(_ => setLoading(false));
+                .finally(() => setLoading(false));
         }
 
         // also works if you're trying to go back to seeing everything after searching something
@@ -50,7 +43,7 @@ function CountriesScreen({ navigation }:
                     setBadResponse(true);
                     setCountries([]);
                 })
-                .then(_ => setLoading(false));
+                .finally(() => setLoading(false));
         }
     }
 
@@ -79,7 +72,7 @@ function CountriesScreen({ navigation }:
                     data={countries}
                     renderItem={
                         ({ item: country }: { item: SimpleCountry }) =>
-                            <TouchableOpacity onPress={() => navigation.navigate('CountryDetailsScreen', country)}>
+                            <TouchableOpacity onPress={() => navigate('CountryDetailsScreen', country)}>
                                 <Text>{country.name.common}</Text>
                             </TouchableOpacity>
                     }

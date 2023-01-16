@@ -1,18 +1,9 @@
 import { Text, View, Image } from 'react-native';
-import { type RouteProp } from '@react-navigation/native';
 
 import { styles } from './styles'
-import { type SimpleCountry } from './types'
+import { type CountryDetailsScreenProps } from './types'
 
-function CountryDetailsScreen({ route }:
-    {
-        route?: RouteProp<{
-            CountryDetailsScreen: SimpleCountry;
-        }>
-    }) {
-
-    const country = route!.params; // :(
-
+function CountryDetailsScreen({ route: { params: country } }: CountryDetailsScreenProps) {
     return (
         <View style={styles.container}>
             <Image
