@@ -14,11 +14,11 @@ function CountryDetailsScreen({ route: { params: country } }: CountryDetailsScre
             <Text style={styles.content}>{country.name.common}</Text>
             <Text style={styles.mediumContent}>
                 {
-                    `is ${country.independent ? "an " : "a non-"}independent country`
-                    + ` which is${country.landlocked ? "" : "n't"} landlocked\n`
+                    `She's ${country.independent ? "an " : "a non-"}independent country`
+                    + ` who's${country.landlocked ? "" : " not"} landlocked\n`
                     + `and is${country.unMember ? "" : "n't"} a member state of the UN.\n`
-                    + `It is in ${country.subregion}, which is in the region of ${country.region}`
-                    + `, and its capital is ${country.capital}.`
+                    + `She's in ${country.subregion}, which is in the region of ${country.region}`
+                    + `, and her capital is ${country.capital}.`
                 }
             </Text>
         </View>
