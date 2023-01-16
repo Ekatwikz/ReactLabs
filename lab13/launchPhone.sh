@@ -6,7 +6,12 @@ main () {
 
     clear
     printf "Emulating AVD: %s\n\n" "$1"
+
+    # with acceleration:
     emulator -avd "$1" -accel on -gpu host -verbose -show-kernel #-wipe-data
+
+    # without:
+    #emulator -avd "$1" -accel off -gpu swiftshader_indirect -verbose -show-kernel #-wipe-data
 }
 
 usage () {
